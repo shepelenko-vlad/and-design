@@ -1,0 +1,29 @@
+.divInput {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.ant-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+img {
+  height: 32px;
+}
+
+.ant-form {
+  width: 100%;
+}
+
+.ant-btn-primary {
+  width: 100%;
+}
+
+.ant-col {
+  flex: auto;
+}
