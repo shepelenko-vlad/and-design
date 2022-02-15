@@ -6,18 +6,15 @@
   align-items: center;
 }
 
-.ant-modal-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 img {
   height: 32px;
 }
 
 .ant-form {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .ant-btn-primary {
@@ -26,4 +23,8 @@ img {
 
 .ant-col {
   flex: auto;
+}
+
+.ant-row {
+  width: 100%;
 }

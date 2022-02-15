@@ -14,6 +14,10 @@ const ModalForm = () => {
     setIsModalVisible(true);
   };
 
+  const validateInput = {
+    required: "В поле разрен ввод только латинских символов и цифр!",
+  };
+
   const handleChange = (value) => {
     switch (value) {
       case "Azure Logic Apps":
@@ -37,15 +41,15 @@ const ModalForm = () => {
   };
 
   const handlePress = (event) => {
+    var charCode = event.charCodeAt(0);
     if (
-      (event.charCode < 97 || event.charCode > 122) &&
-      (event.charCode < 65 || event.charCode > 90) &&
-      (event.charCode < 48 || event.charCode > 57)
+      (charCode < 97 || charCode > 122) &&
+      (charCode < 65 || charCode > 90) &&
+      (charCode < 48 || charCode > 57)
     ) {
-      alert("В поле разрен ввод только латинских символов и цифр");
-      event.preventDefault();
-    } else {
       return;
+    } else {
+      return true;
     }
   };
 
@@ -64,35 +68,43 @@ const ModalForm = () => {
         footer={null}
         onCancel={handleCancel}
       >
-        <div className="divInput">
-          <p>Source System: </p>
-          <Select style={{ width: "89.2%" }}>
-            {sourceSystem.map((item) => (
-              <Option key={item.id}>
-                <img src={item.img} alt={item.img} /> {item.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-        <div className="divInput">
-          <p>Migration Type: </p>
-          <Select onChange={handleChange} style={{ width: "88.8%" }}>
-            {migrationType.map((item) => (
-              <Option value={item.name} key={item.id}>
-                <img src={item.img} alt={item.img} /> {item.name}
-              </Option>
-            ))}
-          </Select>
-        </div>
-        <div className="divInput">
-          <Form
-            name="basic"
-            labelCol={{ span: 11 }}
-            initialValues={{
-              remember: true,
-            }}
-            autoComplete="off"
-          >
+        <Form
+          validateMessages={validateInput}
+          name="basic"
+          labelCol={{ span: 11 }}
+          initialValues={{
+            remember: true,
+          }}
+          autoComplete="off"
+        >
+          <div className="divInput">
+            <p>Source System: </p>
+            <Select
+              defaultValue={sourceSystem[0].name}
+              style={{ width: "89.2%" }}
+            >
+              {sourceSystem.map((item) => (
+                <Option key={item.id} value={item.name}>
+                  <img src={item.img} alt={item.img} /> {item.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+          <div className="divInput">
+            <p>Migration Type: </p>
+            <Select
+              onChange={handleChange}
+              defaultValue={migrationType[0].name}
+              style={{ width: "88.8%" }}
+            >
+              {migrationType.map((item) => (
+                <Option value={item.name} key={item.id}>
+                  <img src={item.img} alt={item.img} /> {item.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
+          <div className="divInput">
             <Form.Item
               label={appName}
               labelAlign="left"
@@ -102,22 +114,36 @@ const ModalForm = () => {
                   required: true,
                   message: "Please enter app name",
                 },
+                () => ({
+                  validator(_, value) {
+                    if (handlePress(value.slice(-1))) {
+                      return Promise.resolve();
+                    } else {
+                      value.slice(0, value.length - 1);
+                      return Promise.reject(
+                        new Error(
+                          "В поле разрешен ввод только латинских символов и цифр"
+                        )
+                      );
+                    }
+                  },
+                }),
               ]}
             >
-              <Input onKeyPress={handlePress} />
+              <Input />
             </Form.Item>
-            <Form.Item>
-              <Button
-                key="submit"
-                type="primary"
-                style={{ width: "100%" }}
-                htmlType="submit"
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+          </div>
+          <Form.Item>
+            <Button
+              key="submit"
+              type="primary"
+              style={{ width: "100%" }}
+              htmlType="submit"
+            >
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );
