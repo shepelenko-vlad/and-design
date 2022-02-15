@@ -41,7 +41,7 @@ const ModalForm = () => {
   };
 
   const handlePress = (event) => {
-    var charCode = event.charCodeAt(0);
+    let charCode = event.charCodeAt(0);
     if (
       (charCode < 97 || charCode > 122) &&
       (charCode < 65 || charCode > 90) &&
@@ -55,6 +55,14 @@ const ModalForm = () => {
 
   const handleCancel = () => {
     setIsModalVisible(false);
+  };
+
+  const onFinish = (values) => {
+    console.log("Success: ", values);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed: ", errorInfo);
   };
 
   return (
@@ -76,26 +84,22 @@ const ModalForm = () => {
             remember: true,
           }}
           autoComplete="off"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
         >
-          <div className="divInput">
-            <p>Source System: </p>
-            <Select
-              defaultValue={sourceSystem[0].name}
-              style={{ width: "89.2%" }}
-            >
+          <Form.Item name="sourceSystem" label="Source System">
+            <Select defaultValue={sourceSystem[0].name}>
               {sourceSystem.map((item) => (
                 <Option key={item.id} value={item.name}>
                   <img src={item.img} alt={item.img} /> {item.name}
                 </Option>
               ))}
             </Select>
-          </div>
-          <div className="divInput">
-            <p>Migration Type: </p>
+          </Form.Item>
+          <Form.Item name="migrationType" label="Migration Type">
             <Select
               onChange={handleChange}
               defaultValue={migrationType[0].name}
-              style={{ width: "88.8%" }}
             >
               {migrationType.map((item) => (
                 <Option value={item.name} key={item.id}>
@@ -103,7 +107,7 @@ const ModalForm = () => {
                 </Option>
               ))}
             </Select>
-          </div>
+          </Form.Item>
           <div className="divInput">
             <Form.Item
               label={appName}
