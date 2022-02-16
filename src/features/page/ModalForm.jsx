@@ -40,19 +40,6 @@ const ModalForm = () => {
     }
   };
 
-  const handlePress = (event) => {
-    let charCode = event.charCodeAt(0);
-    if (
-      (charCode < 97 || charCode > 122) &&
-      (charCode < 65 || charCode > 90) &&
-      (charCode < 48 || charCode > 57)
-    ) {
-      return;
-    } else {
-      return true;
-    }
-  };
-
   const handleCancel = () => {
     setIsModalVisible(false);
   };
@@ -119,15 +106,15 @@ const ModalForm = () => {
                 },
                 () => ({
                   validator(_, value) {
-                    if (handlePress(value.slice(-1))) {
-                      return Promise.resolve();
-                    } else {
-                      return Promise.reject(
-                        new Error(
-                          "В поле разрешен ввод только латинских символов и цифр"
+                    const regexp = /[^\w]/gi;
+
+                    return regexp.test(value)
+                      ? Promise.reject(
+                          new Error(
+                            "В поле разрешен ввод только латинских символов и цифр"
+                          )
                         )
-                      );
-                    }
+                      : Promise.resolve();
                   },
                 }),
               ]}
