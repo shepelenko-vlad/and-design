@@ -14,10 +14,6 @@ const ModalForm = () => {
     setIsModalVisible(true);
   };
 
-  const validateInput = {
-    required: "В поле разрен ввод только латинских символов и цифр!",
-  };
-
   const handleChange = (value) => {
     switch (value) {
       case "Azure Logic Apps":
@@ -64,7 +60,6 @@ const ModalForm = () => {
         onCancel={handleCancel}
       >
         <Form
-          validateMessages={validateInput}
           name="basic"
           labelCol={{ span: 11 }}
           initialValues={{
