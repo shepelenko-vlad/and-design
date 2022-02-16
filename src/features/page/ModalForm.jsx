@@ -8,10 +8,8 @@ const { Option } = Select;
 
 const ModalForm = () => {
   const [appName, setAppName] = useState("App Name: ");
-  const [appNameInput, setAppNameInput] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  console.log("appNameInput", appNameInput);
   const showModal = () => {
     setIsModalVisible(true);
   };
