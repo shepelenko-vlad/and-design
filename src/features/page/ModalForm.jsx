@@ -8,8 +8,10 @@ const { Option } = Select;
 
 const ModalForm = () => {
   const [appName, setAppName] = useState("App Name: ");
+  const [appNameInput, setAppNameInput] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  console.log("appNameInput", appNameInput);
   const showModal = () => {
     setIsModalVisible(true);
   };
@@ -82,13 +84,15 @@ const ModalForm = () => {
           labelCol={{ span: 11 }}
           initialValues={{
             remember: true,
+            sourceSystem: sourceSystem[0].name,
+            migrationType: migrationType[0].name,
           }}
           autoComplete="off"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
         >
           <Form.Item name="sourceSystem" label="Source System">
-            <Select defaultValue={sourceSystem[0].name}>
+            <Select>
               {sourceSystem.map((item) => (
                 <Option key={item.id} value={item.name}>
                   <img src={item.img} alt={item.img} /> {item.name}
@@ -97,10 +101,7 @@ const ModalForm = () => {
             </Select>
           </Form.Item>
           <Form.Item name="migrationType" label="Migration Type">
-            <Select
-              onChange={handleChange}
-              defaultValue={migrationType[0].name}
-            >
+            <Select onChange={handleChange}>
               {migrationType.map((item) => (
                 <Option value={item.name} key={item.id}>
                   <img src={item.img} alt={item.img} /> {item.name}
