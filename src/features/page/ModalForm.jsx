@@ -124,7 +124,6 @@ const ModalForm = () => {
                     if (handlePress(value.slice(-1))) {
                       return Promise.resolve();
                     } else {
-                      value.slice(0, value.length - 1);
                       return Promise.reject(
                         new Error(
                           "В поле разрешен ввод только латинских символов и цифр"
